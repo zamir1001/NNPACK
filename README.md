@@ -82,7 +82,7 @@ Note: in Windows you should install the latest CMake with the "Add CMake to the 
 
 on other platforms:
 ```bash
-git clone https://github.com/zamir/NNPACK.git
+git clone https://github.com/zamir1001/NNPACK.git
 cd NNPACK
 mkdir build
 cd build
