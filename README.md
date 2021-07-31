@@ -69,7 +69,7 @@ For most users, the recommended way to build NNPACK is through CMake.
 
 in a Developer Command Prompt for VS 2019:
 ```bash
-git clone https://github.com/zulma46/NNPACK.git
+git clone https://github.com/zamir1001/NNPACK.git
 cd NNPACK
 mkdir build
 cd build
@@ -82,7 +82,7 @@ Note: in Windows you should install the latest CMake with the "Add CMake to the 
 
 on other platforms:
 ```bash
-git clone https://github.com/zulma46/NNPACK.git
+git clone https://github.com/zamir/NNPACK.git
 cd NNPACK
 mkdir build
 cd build
