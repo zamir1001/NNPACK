@@ -77,7 +77,8 @@ cmake -A x64 ..
 msbuild NNPACK.sln /p:Configuration=Release
 msbuild RUN_TESTS.vcxproj /p:Configuration=Release
 ```
-Note: in Windows you should install the latest CMake with the "Add CMake to the system PATH for all users" option. You must also set a PYTHONPATH system environment variable to the correct directories.
+Note: in Windows you should install the latest CMake with the "Add CMake to the system PATH for all users" option. You must also set a PYTHONPATH system environment variable to the correct directory (In my case
+this is C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64).
 
 
 on other platforms:
