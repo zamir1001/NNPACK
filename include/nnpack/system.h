@@ -121,7 +121,7 @@ inline static void* allocate_memory(size_t memory_size) {
 	}
 	return memory_block;
 #elif defined(_MSC_VER)
-    void* memory_block = _aligned_malloc(memory_size, 64);
+	void* memory_block = _aligned_malloc(memory_size, 64);
 	return memory_block;
 #else
 	void* memory_block = NULL;
