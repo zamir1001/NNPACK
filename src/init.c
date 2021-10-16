@@ -2,7 +2,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#ifndef  _WIN32
+#ifdef _MSC_VER
+#include <windows.h>
+#else
 #include <pthread.h>
 #endif
 
@@ -16,7 +18,9 @@
 #include <nnpack/softmax.h>
 
 struct hardware_info nnp_hwinfo = { .initialized = false };
-#ifndef _WIN32
+#ifdef _MSC_VER
+static INIT_ONCE hwinfo_init_control = INIT_ONCE_STATIC_INIT;
+#else
 static pthread_once_t hwinfo_init_control = PTHREAD_ONCE_INIT;
 #endif
 
@@ -653,12 +657,20 @@ static void init_hwinfo(void) {
 	nnp_hwinfo.initialized = true;
 }
 
+#ifdef _MSC_VER
+static BOOL CALLBACK init_windows(PINIT_ONCE init_once, PVOID parameter, PVOID* context) {
+    init_hwinfo();
+    return TRUE;
+}
+#endif
+
 enum nnp_status nnp_initialize(void) {
 	if (!cpuinfo_initialize()) {
 		return nnp_status_out_of_memory;
 	}
-#ifdef _WIN32
-	init_hwinfo();
+	
+#ifdef _MSC_VER
+	InitOnceExecuteOnce(&hwinfo_init_control, &init_windows, NULL, NULL);
 #else
 	pthread_once(&hwinfo_init_control, &init_hwinfo);
 #endif

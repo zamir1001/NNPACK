@@ -39,15 +39,10 @@ inline static double read_timer() {
 #elif defined(EMSCRIPTEN)
 	return emscripten_get_now() * 1.0e-3;
 #elif defined(_MSC_VER)
-#if defined(__cplusplus)
-	return double(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
-#else
-	LARGE_INTEGER frequency;
-	LARGE_INTEGER start;
-	QueryPerformanceFrequency(&frequency);
-	QueryPerformanceCounter(&start);
-	return (double)(start.QuadPart * 10) / frequency.QuadPart;
-#endif
+	__int64 wintime;
+	GetSystemTimeAsFileTime(&wintime);
+	wintime -= 116444736000000000i64;  //1jan1601 to 1jan1970
+	return (double) wintime;
 #else
 	//#error No implementation available
 #endif
@@ -125,8 +120,9 @@ inline static void* allocate_memory(size_t memory_size) {
 		}
 	}
 	return memory_block;
-#elif defined(_WIN32)
-	return _aligned_malloc(memory_size, 64ull);
+#elif defined(_MSC_VER)
+    void* memory_block = _aligned_malloc(memory_size, 64);
+	return memory_block;
 #else
 	void* memory_block = NULL;
 	int allocation_result = posix_memalign(&memory_block, 64, memory_size);
